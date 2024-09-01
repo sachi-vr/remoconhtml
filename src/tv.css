@@ -1,0 +1,90 @@
+@charset "utf-8";
+
+/* 全てのタグをborder-boxへ変更 */
+html *,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/* 基準とするフォントサイズ */
+html {
+    font-size: 14px;
+}
+
+.maincontaint {
+    /* 上右下左のマージン */
+    margin: 5px 0 5px 0;
+}
+
+@media (min-width: 768px) {
+    /* PCの場合無限に横幅が広がるとダサいので制限する */
+    .maincontaint {
+        max-width: 840px;
+        /* 上右下左のマージン */
+        margin: 5px auto 5px auto;
+    }
+}
+/* 1行を定義 */
+.rawcontant {
+    /* 1行の中はflexで横に並ぶ */
+    display: flex;
+}
+
+/* ボタンの定義 */
+.mybutton {
+    border: 1px solid #05383d;
+    /* 角を丸めている */
+    border-radius: 8px;
+    /* 1行をflexにしていて、1行の中で横幅いっぱいに広げている */
+    flex: 1 1 auto;
+    /* 文字をボタンの真中へ(buttonタグには不要だった) */
+    /*text-align: center;
+    */
+    margin: 0.5rem;
+    padding: 0.5rem;
+}
+
+/* 後で書いた方が優先されるため設定上書き */
+.power {
+    background-color: rgb(172, 22, 22);
+    border-radius: 20px;
+    flex: 0 0 8rem;
+    margin-right: 5rem;
+
+}
+
+.buluebutton {
+    font-size: 1em;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-right: 3px;
+    padding-left: 3px;
+    background-color: rgb(65, 141, 218);
+}
+
+.redbutton {
+    font-size: 1em;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-right: 3px;
+    padding-left: 3px;
+    background-color: rgb(228, 0, 72);
+}
+
+.greenbutton {
+    font-size: 1em;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-right: 3px;
+    padding-left: 3px;
+    background-color: rgb(92, 196, 23);
+}
+.yellowbutton {
+    font-size: 1em;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-right: 3px;
+    padding-left: 3px;
+    background-color: rgb(228, 225, 72);
+}

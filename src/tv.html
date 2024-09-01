@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TVリモコン</title>
+    <link href="tv.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="maincontaint">
+        <div class="rawcontant">
+            <button class="mybutton power" data-arg="power">ON/OFF</button>
+            <button class="mybutton" data-arg="inp">INPUT</button>
+            <button class="mybutton" data-arg="subvoice">SubVoice</button>
+        </div>
+        <div class="rawcontant">
+            <button class="mybutton" data-arg="ch1">1</button>
+            <button class="mybutton" data-arg="ch2">2</button>
+            <button class="mybutton" data-arg="ch3">3</button>
+        </div>
+        <div class="rawcontant">
+            <button class="mybutton" data-arg="ch4">4</button>
+            <button class="mybutton" data-arg="ch5">5</button>
+            <button class="mybutton" data-arg="ch6">6</button>
+        </div>
+        <div class="rawcontant">
+            <button class="mybutton" data-arg="ch7">7</button>
+            <button class="mybutton" data-arg="ch8">8</button>
+            <button class="mybutton" data-arg="ch9">9</button>
+        </div>
+        <div class="rawcontant">
+            <button class="mybutton" data-arg="ch10">10</button>
+            <button class="mybutton" data-arg="ch11">11</button>
+            <button class="mybutton" data-arg="ch12">12</button>
+        </div>
+        <div class="rawcontant">
+            <button class="mybutton" data-arg="volup">音量アップ</button>
+            <button class="mybutton" data-arg="chup">CHアップ</button>
+        </div>
+        <div class="rawcontant">
+            <button class="mybutton" data-arg="voldown">音量ダウン</button>
+            <button class="mybutton" data-arg="chdown">CHダウン</button>
+        </div>
+        <div class="rawcontant">
+            <button class="mybutton buluebutton" data-arg="bulue">青色</button>
+            <button class="mybutton redbutton" data-arg="red">赤色</button>
+            <button class="mybutton greenbutton" data-arg="green">緑色</button>
+            <button class="mybutton yellowbutton" data-arg="yellow">黄色</button>
+        </div>
+        <div class="rawcontant">
+            <button class="mybutton" data-arg="bangumi">番組</button>
+            <button class="mybutton" data-arg="up">上</button>
+            <button class="mybutton" data-arg="gamen">画面</button>
+        </div>
+        <div class="rawcontant">
+            <button class="mybutton" data-arg="left">左</button>
+            <button class="mybutton" data-arg="enter">決定</button>
+            <button class="mybutton" data-arg="right">右</button>
+        </div>
+        <div class="rawcontant">
+            <button class="mybutton" data-arg="option">オプション</button>
+            <button class="mybutton" data-arg="down">下</button>
+            <button class="mybutton" data-arg="reclist">録画リスト</button>
+        </div>
+        <div class="rawcontant">
+            <button class="mybutton" data-arg="back">＜</button>
+            <button class="mybutton" data-arg="play">Play</button>
+            <button class="mybutton" data-arg="next">＞</button>
+        </div>
+        <div id="result"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <script>
+        // 結果を表示する要素を取得
+        const resultElement = document.getElementById('result');
+        function showResult(msg) {
+            // 結果を表示
+            resultElement.textContent = msg;
+
+            // 1秒後に要素を隠す
+            setTimeout(() => {
+                resultElement.textContent = '';
+            }, 3000);
+        }
+        // 全mybuttonクラスが付いている要素
+        buttons = document.querySelectorAll('.mybutton');
+        buttons.forEach(button => {
+            const cmd = button.getAttribute('data-arg');
+            button.addEventListener('click', function () {
+                // クリックされたときの処理
+                //API呼び出し
+                axios.post('/api/v1/irsend', { "remote": "tv", "code": cmd })
+                    // thenで成功した場合の処理をかける
+                    .then(response => {
+                        console.log('status:', response.status); // 200
+                        console.log('body:', response.data);     // response body.
+                        if (response.status != 200) {
+                            console.log('エラー:' + cmd);
+                            console.log(response.status);
+                            showResult('エラー:' + cmd);
+                        } else {
+                            console.log('成功:' + cmd);
+                            console.log(response.data);
+                            showResult('成功:' + cmd);
+                        }
+                    })
+                    // catchでエラー時の挙動を定義する
+                    .catch(err => {
+                        console.log('axios err:', err);
+                        showResult('axios err:', err);
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>
